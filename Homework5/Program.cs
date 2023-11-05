@@ -44,5 +44,4 @@ while (isRightArray)
     {
         Console.WriteLine("Неверная размерность массива\n");
     }
-
 }

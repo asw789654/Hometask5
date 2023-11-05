@@ -1,4 +1,6 @@
 ﻿using Task1;
+const int russianAlphabetLenght = 32;
+const int englishAlphabetLenght = 26;
 while (true)
 {
     Console.Write("Введите ключ: ");
@@ -11,92 +13,63 @@ while (true)
     {
         Console.WriteLine("Строка пуста");
     }
-    else if (IsNumbers(input))
-    {
-        Console.WriteLine("Строка содержит цифры");
-    }
     else if (choise != "1" && choise != "2")
     {
         Console.WriteLine("Введён не верный вариант");
     }
     else
     {
+        bool cryption = false;
         if (choise == "1")
         {
-            Console.WriteLine(Encryption(input, key));
+            cryption = true;
         }
-        if (choise == "2")
-        {
-            Console.WriteLine(Decipher(input, key));
-        }
+        Console.WriteLine(Сryption(input, key, cryption));
     }
 }
-static bool IsNumbers(string input)
-{
-    bool result = false;
-    for (int i = 0; i < input.Length; i++)
-    {
-        if (input[i] >= '0' && input[i] <= '9')
-        {
-            result = true;
 
-        }
-    }
-    return result;
-}
-
-static string Encryption(string input, int key)
+static string Сryption(string input, int key, bool cryption)
 {
     string output = string.Empty;
-
     foreach (char letter in input)
     {
-        if (input[0] >= 'a' && 'z' <= input[0])
+        if (letter >= 'a' && letter <= 'z')
         {
-            output += RussianCipher(letter, key);
-
+            output += EnglishCipher(letter, key, cryption);
         }
         else
         {
-            output += EnglishCipher(letter, key);
+            output += RussianCipher(letter, key, cryption);
         }
     }
 
     return output;
 }
-static char EnglishCipher(char letter, int key)
+
+static char EnglishCipher(char letter, int key, bool cryption)
 {
+    if (!cryption)
+    {
+        key = englishAlphabetLenght - key;
+    }
     if (!char.IsLetter(letter))
     {
-
         return letter;
     }
     char upperModifier = char.IsUpper(letter) ? 'A' : 'a';
-    return (char)((((letter + key) - upperModifier) % 26) + upperModifier);
+    return (char)((((letter + key) - upperModifier) % englishAlphabetLenght) + upperModifier);
 }
-static char RussianCipher(char letter, int key)
+
+static char RussianCipher(char letter, int key, bool cryption)
 {
+    if (!cryption)
+    {
+        key = russianAlphabetLenght - key;
+    }
     if (!char.IsLetter(letter))
     {
-
         return letter;
     }
     char upperModifier = char.IsUpper(letter) ? 'А' : 'а';
-    return (char)((((letter + key) - upperModifier) % 32) + upperModifier);
+    return (char)((((letter + key) - upperModifier) % russianAlphabetLenght) + upperModifier);
 }
-static string Decipher(string input, int key)
-{
-    int languageMadifier;
-    if (input[0] >= 'a' && 'z' <= input[0])
-    {
-        languageMadifier = 32;
-    }
-    else
-    {
-        languageMadifier = 26;
-    }
-    return Encryption(input, languageMadifier - key);
-}
-
-
-

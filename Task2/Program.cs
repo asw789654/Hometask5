@@ -10,7 +10,7 @@ while (true)
     {
         Console.WriteLine("Строка пуста");
     }
-    else if (input.IndexOf('h') == -1)
+    else if (input.Contains('h'))
     {
         Console.WriteLine("В строке не символа h");
     }
